@@ -1,0 +1,18 @@
+@startuml
+
+autonumber
+actor User
+participant "Chrome Extension" as A
+participant "Ninja Chain" as B
+User -> A: MP&MailAddress
+A -> A: hash[MP, MailAddress] => seed
+A -> B: register or authenticate by seed
+A -> A: hash[seed, domain] => key
+A -> A: encrypt[password, common: seed] => encrypted password
+A -> B: write mapping[key] = encrypted password
+User -> A: want to refer password
+A -> B: refer mapping[key(=hash[seed, domain])]
+B -> A: encrypted password
+A -> A: decrypt[encrypted password, common: seed] => password
+A -> User: password
+@enduml
